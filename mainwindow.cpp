@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include "pumpdata.h"
 #include <QCoreApplication>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItems(m_portNameList);//将可用串口添加到comboBox中
 
     //连接到数据库
-    //connect_mysql();
+    connect_mysql();
 
     //创建一个QSerialPort串口对象
     m_serialPort = new QSerialPort();
@@ -27,15 +27,14 @@ MainWindow::MainWindow(QWidget *parent) :
     receivecoutner = 0;
 
     //绘制图表
-    line1.setName("current");
-    line2.setName("entrance");
-    line3.setName("exit");
-    line4.setName("flow");
+    line1.setName("母线电流");
+    line2.setName("入口压力");
+    line3.setName("出口压力");
+    line4.setName("空气流量");
     c.createDefaultAxes();
     c.setTitle("检测结果");
     ui->chartwidget->setRenderHint(QPainter::Antialiasing);
     ui->chartwidget->setChart(&c);
-
 
     //进度条
     ui->progressBar->setRange(0,100);
@@ -147,6 +146,18 @@ void MainWindow::read()
     {
         dataarray.clear();        //清空存放数据的数组
         ui->progressBar->reset(); //复位进度条
+        ui->result1_current->clear();//以下12行清空数据显示Label
+        ui->result2_current->clear();
+        ui->result3_current->clear();
+        ui->result1_entrance->clear();
+        ui->result2_entrance->clear();
+        ui->result3_entrance->clear();
+        ui->result1_exit->clear();
+        ui->result2_exit->clear();
+        ui->result3_exit->clear();
+        ui->result1_flow->clear();
+        ui->result2_flow->clear();
+        ui->result3_flow->clear();
         ui->test_status->setText("测试开始");
         try
         {                      //    首先删除图表中上次添加的折线。程序初次启动时图表中没有折线，
@@ -197,81 +208,105 @@ void MainWindow::read()
         //dataarray.append(buf);
         ui->edit_send->setText(dataarray);
         qDebug()<<dataarray;
-    }
-    if(dataarray.length()==74)
-    {
-        //ui->edit_receive->setText("ok");
-        ui->progressBar->setValue(100);
-        ui->test_status->setText("测试完成!");
-        //分离接收到的长数组中的数据
-        for (int i=0;i<6;i++)
+
+        if(dataarray.length()==74)
         {
-            result1.currentstr[i] = dataarray[i+1];
-            result1.entrancestr[i] = dataarray[i+7];
-            result1.exitstr[i] = dataarray[i+13];
-            result1.flowstr[i] = dataarray[i+19];
-            result2.currentstr[i] = dataarray[i+25];
-            result2.entrancestr[i] = dataarray[i+31];
-            result2.exitstr[i] = dataarray[i+37];
-            result2.flowstr[i] = dataarray[i+43];
-            result3.currentstr[i] = dataarray[i+49];
-            result3.entrancestr[i] = dataarray[i+55];
-            result3.exitstr[i] = dataarray[i+61];
-            result3.flowstr[i] = dataarray[i+67];
+            //ui->edit_receive->setText("ok");
+            ui->progressBar->setValue(100);
+            ui->test_status->setText("测试完成!");
+            //分离接收到的长数组中的数据
+            for (int i=0;i<6;i++)
+            {
+                result1.currentstr[i] = dataarray[i+1];
+                result1.entrancestr[i] = dataarray[i+7];
+                result1.exitstr[i] = dataarray[i+13];
+                result1.flowstr[i] = dataarray[i+19];
+                result2.currentstr[i] = dataarray[i+25];
+                result2.entrancestr[i] = dataarray[i+31];
+                result2.exitstr[i] = dataarray[i+37];
+                result2.flowstr[i] = dataarray[i+43];
+                result3.currentstr[i] = dataarray[i+49];
+                result3.entrancestr[i] = dataarray[i+55];
+                result3.exitstr[i] = dataarray[i+61];
+                result3.flowstr[i] = dataarray[i+67];
+            }
+            //将收到的字符串数组转化为float型
+            result1.current = result1.currentstr.toFloat();
+            result1.entrance = result1.entrancestr.toFloat();
+            result1.exit = result1.exitstr.toFloat();
+            result1.flow = result1.flowstr.toFloat();
+            result2.current = result2.currentstr.toFloat();
+            result2.entrance = result2.entrancestr.toFloat();
+            result2.exit = result2.exitstr.toFloat();
+            result2.flow = result2.flowstr.toFloat();
+            result3.current = result3.currentstr.toFloat();
+            result3.entrance = result3.entrancestr.toFloat();
+            result3.exit = result3.exitstr.toFloat();
+            result3.flow = result3.flowstr.toFloat();
+            //qDebug()<<"%f"<<result3.current;
+            qDebug()<<result1.current<<"\t"<<result2.current<<"\t"<<result3.current;
+
+            /*try {                      //    首先删除图表中上次添加的折线。程序初次启动时图表中没有折线，
+                c.removeSeries(&line1);//因此使用try...catch...避免报错
+                c.removeSeries(&line2);
+                c.removeSeries(&line3);
+                c.removeSeries(&line4);
+            } catch (...)
+            {
+
+            }*/
+            line1.clear(); //首先将上次的数据清空
+            line2.clear();
+            line3.clear();
+            line4.clear();
+
+            //将坐标点数据添加到折线中
+            line1.append(1.0,static_cast<double>(result1.current));//    QLineSeries的append方法中参数为double型，
+            line1.append(2.0,static_cast<double>(result2.current));//因此进行强制类型转换。并且由float型强制转换为double型
+            line1.append(3.0,static_cast<double>(result3.current));//时不会丢失精度。
+            line2.append(1,static_cast<double>(result1.entrance));
+            line2.append(2,static_cast<double>(result2.entrance));
+            line2.append(3,static_cast<double>(result3.entrance));
+            line3.append(1,static_cast<double>(result1.exit));
+            line3.append(2,static_cast<double>(result2.exit));
+            line3.append(3,static_cast<double>(result3.exit));
+            line4.append(1,static_cast<double>(result1.flow));
+            line4.append(2,static_cast<double>(result2.flow));
+            line4.append(3,static_cast<double>(result3.flow));
+
+            c.addSeries(&line1);
+            c.addSeries(&line2);
+            c.addSeries(&line3);
+            c.addSeries(&line4);
+
+            c.createDefaultAxes();
+            ui->chartwidget->setRenderHint(QPainter::Antialiasing);
+            ui->chartwidget->setChart(&c);
+
+            //显示数据
+            ui->result1_current->setNum(static_cast<double>(result1.current));
+            ui->result2_current->setNum(static_cast<double>(result2.current));
+            ui->result3_current->setNum(static_cast<double>(result3.current));
+            ui->result1_entrance->setNum(static_cast<double>(result1.entrance));
+            ui->result2_entrance->setNum(static_cast<double>(result2.entrance));
+            ui->result3_entrance->setNum(static_cast<double>(result3.entrance));
+            ui->result1_exit->setNum(static_cast<double>(result1.exit));
+            ui->result2_exit->setNum(static_cast<double>(result2.exit));
+            ui->result3_exit->setNum(static_cast<double>(result3.exit));
+            ui->result1_flow->setNum(static_cast<double>(result1.flow));
+            ui->result2_flow->setNum(static_cast<double>(result2.flow));
+            ui->result3_flow->setNum(static_cast<double>(result3.flow));
+
         }
-        //将收到的字符串数组转化为float型
-        result1.current = result1.currentstr.toFloat();
-        result1.entrance = result1.entrancestr.toFloat();
-        result1.exit = result1.exitstr.toFloat();
-        result1.flow = result1.flowstr.toFloat();
-        result2.current = result2.currentstr.toFloat();
-        result2.entrance = result2.entrancestr.toFloat();
-        result2.exit = result2.exitstr.toFloat();
-        result2.flow = result2.flowstr.toFloat();
-        result3.current = result3.currentstr.toFloat();
-        result3.entrance = result3.entrancestr.toFloat();
-        result3.exit = result3.exitstr.toFloat();
-        result3.flow = result3.flowstr.toFloat();
-        //qDebug()<<"%f"<<result3.current;
-        qDebug()<<result1.current<<"\t"<<result2.current<<"\t"<<result3.current;
-
-        /*try {                      //    首先删除图表中上次添加的折线。程序初次启动时图表中没有折线，
-            c.removeSeries(&line1);//因此使用try...catch...避免报错
-            c.removeSeries(&line2);
-            c.removeSeries(&line3);
-            c.removeSeries(&line4);
-        } catch (...)
+        else
         {
-
-        }*/
-        line1.clear(); //首先将上次的数据清空
-        line2.clear();
-        line3.clear();
-        line4.clear();
-
-        //将坐标点数据添加到折线中
-        line1.append(1.0,static_cast<double>(result1.current));//    QLineSeries的append方法中参数为double型，
-        line1.append(2.0,static_cast<double>(result2.current));//因此进行强制类型转换。并且由float型强制转换为double型
-        line1.append(3.0,static_cast<double>(result3.current));//时不会丢失精度。
-        line2.append(1,static_cast<double>(result1.entrance));
-        line2.append(2,static_cast<double>(result2.entrance));
-        line2.append(3,static_cast<double>(result3.entrance));
-        line3.append(1,static_cast<double>(result1.exit));
-        line3.append(2,static_cast<double>(result2.exit));
-        line3.append(3,static_cast<double>(result3.exit));
-        line4.append(1,static_cast<double>(result1.flow));
-        line4.append(2,static_cast<double>(result2.flow));
-        line4.append(3,static_cast<double>(result3.flow));
-
-        c.addSeries(&line1);
-        c.addSeries(&line2);
-        c.addSeries(&line3);
-        c.addSeries(&line4);
-
-        c.createDefaultAxes();
-        ui->chartwidget->setRenderHint(QPainter::Antialiasing);
-        ui->chartwidget->setChart(&c);
-
+            dataarray.clear();
+            ui->test_status->setText("数据接收失败，请复位下位机并重启本程序");
+        }
+    }
+    if(buf.contains('J'))//上传到数据库
+    {
+        ui->test_status->setText("正在上传数据...");
     }
 
     //m_serialPort->setDataTerminalReady(true);
@@ -288,6 +323,7 @@ void MainWindow::send()
 
 
 //连接数据库
+
 void MainWindow::connect_mysql()
 {
     QSqlDatabase db=QSqlDatabase::addDatabase("QMYSQL");
