@@ -11,6 +11,9 @@
 #include <QChartView>
 #include <QLineSeries>
 //#include <QPieSeries>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 #include <math.h>
 using namespace QtCharts;
 
@@ -44,7 +47,7 @@ private:
 
     QSerialPort* m_serialPort; //串口类
     QStringList m_portNameList;//保存可用的串口名
-    //QSqlDatabase db;
+    QSqlDatabase db;
     QByteArray sendbuff;//发送缓冲器
     QByteArray dataarray;
     int receivecoutner;//接收计数
@@ -54,6 +57,7 @@ private:
     QLineSeries line3; //创建图表折线对象3 显示出口气压数据
     QLineSeries line4; //创建图表折线对象4 显示流量数据
     QChart c;   //创建图表对象
+    int errorflag;
 
     struct RESULT //测试结果结构体
     {
@@ -61,10 +65,10 @@ private:
         QByteArray entrancestr;
         QByteArray exitstr;
         QByteArray flowstr;
-        float current;           //用于保存传感器的实际数据
-        float entrance;
-        float exit;
-        float flow;
+        double current;           //用于保存传感器的实际数据
+        double entrance;
+        double exit;
+        double flow;
 
     }result1,result2,result3; //创建3个测试结果结构体，分别保存三档风速下的测试结果
 

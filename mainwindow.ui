@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>水泵总成气测台</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="horizontalLayoutWidget">
@@ -128,8 +128,8 @@
    <widget class="QChartView" name="chartwidget" native="true">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>80</y>
+      <x>740</x>
+      <y>10</y>
       <width>481</width>
       <height>361</height>
      </rect>
@@ -148,215 +148,6 @@
      <number>24</number>
     </property>
    </widget>
-   <widget class="QWidget" name="gridLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>460</y>
-      <width>461</width>
-      <height>121</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="3">
-      <widget class="QLabel" name="result1_exit">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="result1_entrance">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="result2_entrance">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
-      <widget class="QLabel" name="result2_exit">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>出口压力</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>母线电流</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="result1_current">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="4">
-      <widget class="QLabel" name="label_9">
-       <property name="text">
-        <string>空气流量</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_10">
-       <property name="text">
-        <string>一档</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QLabel" name="result1_flow">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="4">
-      <widget class="QLabel" name="result2_flow">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_24">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="result3_current">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLabel" name="result3_entrance">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>入口压力</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>二档</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>三档</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="3">
-      <widget class="QLabel" name="result3_exit">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="4">
-      <widget class="QLabel" name="result3_flow">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="result2_current">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QLabel" name="test_status">
     <property name="geometry">
      <rect>
@@ -368,6 +159,535 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>380</y>
+      <width>501</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>测试结果</string>
+    </property>
+    <widget class="QWidget" name="gridLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>461</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="3">
+       <widget class="QLabel" name="result1_exit">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="result1_entrance">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="result2_entrance">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLabel" name="result2_exit">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>出口压力</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>母线电流</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="result1_current">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>空气流量</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>一档</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="result1_flow">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLabel" name="result2_flow">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_24">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="result3_current">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="result3_entrance">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>入口压力</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>二档</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>三档</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="result3_exit">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="4">
+       <widget class="QLabel" name="result3_flow">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="result2_current">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>200</y>
+      <width>431</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>范围设置</string>
+    </property>
+    <widget class="QWidget" name="gridLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>411</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>出口压力</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>入口压力</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>空气流量</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>最大值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>一档范围</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>母线电流</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>最小值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="current1_max"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="current1_min"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QDoubleSpinBox" name="entrance1_max"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QDoubleSpinBox" name="entrance1_min"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDoubleSpinBox" name="exit1_max"/>
+      </item>
+      <item row="2" column="3">
+       <widget class="QDoubleSpinBox" name="exit1_min"/>
+      </item>
+      <item row="1" column="4">
+       <widget class="QDoubleSpinBox" name="flow1_max"/>
+      </item>
+      <item row="2" column="4">
+       <widget class="QDoubleSpinBox" name="flow1_min"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>130</y>
+       <width>411</width>
+       <height>80</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>出口压力</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>入口压力</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>空气流量</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>最大值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_23">
+        <property name="text">
+         <string>二档范围</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_25">
+        <property name="text">
+         <string>母线电流</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_26">
+        <property name="text">
+         <string>最小值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="current2_max"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QDoubleSpinBox" name="entrance2_max"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDoubleSpinBox" name="exit2_max"/>
+      </item>
+      <item row="1" column="4">
+       <widget class="QDoubleSpinBox" name="flow2_max"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="current2_min"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QDoubleSpinBox" name="entrance2_min"/>
+      </item>
+      <item row="2" column="3">
+       <widget class="QDoubleSpinBox" name="exit2_min"/>
+      </item>
+      <item row="2" column="4">
+       <widget class="QDoubleSpinBox" name="flow2_min"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>240</y>
+       <width>411</width>
+       <height>80</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5">
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_34">
+        <property name="text">
+         <string>出口压力</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_35">
+        <property name="text">
+         <string>入口压力</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_36">
+        <property name="text">
+         <string>空气流量</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_37">
+        <property name="text">
+         <string>最大值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_38">
+        <property name="text">
+         <string>三档范围</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_39">
+        <property name="text">
+         <string>母线电流</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_40">
+        <property name="text">
+         <string>最小值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="current3_max"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QDoubleSpinBox" name="entrance3_max"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDoubleSpinBox" name="exit3_max"/>
+      </item>
+      <item row="1" column="4">
+       <widget class="QDoubleSpinBox" name="flow3_max"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="current3_min"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QDoubleSpinBox" name="entrance3_min"/>
+      </item>
+      <item row="2" column="3">
+       <widget class="QDoubleSpinBox" name="exit3_min"/>
+      </item>
+      <item row="2" column="4">
+       <widget class="QDoubleSpinBox" name="flow3_min"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="Line" name="line">
+     <property name="geometry">
+      <rect>
+       <x>7</x>
+       <y>110</y>
+       <width>421</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>220</y>
+       <width>421</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QTextEdit" name="result_edit">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>540</y>
+      <width>361</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

@@ -2,9 +2,7 @@
 #include "ui_mainwindow.h"
 #include "pumpdata.h"
 #include <QCoreApplication>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
+
 #include <QtDebug>
 
 
@@ -19,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItems(m_portNameList);//将可用串口添加到comboBox中
 
     //连接到数据库
-    connect_mysql();
+    //connect_mysql();
 
     //创建一个QSerialPort串口对象
     m_serialPort = new QSerialPort();
@@ -33,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     line4.setName("空气流量");
     c.createDefaultAxes();
     c.setTitle("检测结果");
-    ui->chartwidget->setRenderHint(QPainter::Antialiasing);
+    ui->chartwidget->setRenderHint(QPainter::Antialiasing);//不知道有啥用，写上就完事了
     ui->chartwidget->setChart(&c);
 
     //进度条
@@ -146,6 +144,7 @@ void MainWindow::read()
     {
         dataarray.clear();        //清空存放数据的数组
         ui->progressBar->reset(); //复位进度条
+        errorflag = 0;    //清空异常标志
         ui->result1_current->clear();//以下12行清空数据显示Label
         ui->result2_current->clear();
         ui->result3_current->clear();
@@ -231,18 +230,18 @@ void MainWindow::read()
                 result3.flowstr[i] = dataarray[i+67];
             }
             //将收到的字符串数组转化为float型
-            result1.current = result1.currentstr.toFloat();
-            result1.entrance = result1.entrancestr.toFloat();
-            result1.exit = result1.exitstr.toFloat();
-            result1.flow = result1.flowstr.toFloat();
-            result2.current = result2.currentstr.toFloat();
-            result2.entrance = result2.entrancestr.toFloat();
-            result2.exit = result2.exitstr.toFloat();
-            result2.flow = result2.flowstr.toFloat();
-            result3.current = result3.currentstr.toFloat();
-            result3.entrance = result3.entrancestr.toFloat();
-            result3.exit = result3.exitstr.toFloat();
-            result3.flow = result3.flowstr.toFloat();
+            result1.current = result1.currentstr.toDouble();
+            result1.entrance = result1.entrancestr.toDouble();
+            result1.exit = result1.exitstr.toDouble();
+            result1.flow = result1.flowstr.toDouble();
+            result2.current = result2.currentstr.toDouble();
+            result2.entrance = result2.entrancestr.toDouble();
+            result2.exit = result2.exitstr.toDouble();
+            result2.flow = result2.flowstr.toDouble();
+            result3.current = result3.currentstr.toDouble();
+            result3.entrance = result3.entrancestr.toDouble();
+            result3.exit = result3.exitstr.toDouble();
+            result3.flow = result3.flowstr.toDouble();
             //qDebug()<<"%f"<<result3.current;
             qDebug()<<result1.current<<"\t"<<result2.current<<"\t"<<result3.current;
 
@@ -261,18 +260,18 @@ void MainWindow::read()
             line4.clear();
 
             //将坐标点数据添加到折线中
-            line1.append(1.0,static_cast<double>(result1.current));//    QLineSeries的append方法中参数为double型，
-            line1.append(2.0,static_cast<double>(result2.current));//因此进行强制类型转换。并且由float型强制转换为double型
-            line1.append(3.0,static_cast<double>(result3.current));//时不会丢失精度。
-            line2.append(1,static_cast<double>(result1.entrance));
-            line2.append(2,static_cast<double>(result2.entrance));
-            line2.append(3,static_cast<double>(result3.entrance));
-            line3.append(1,static_cast<double>(result1.exit));
-            line3.append(2,static_cast<double>(result2.exit));
-            line3.append(3,static_cast<double>(result3.exit));
-            line4.append(1,static_cast<double>(result1.flow));
-            line4.append(2,static_cast<double>(result2.flow));
-            line4.append(3,static_cast<double>(result3.flow));
+            line1.append(1.0,result1.current);//    QLineSeries的append方法中参数为double型，
+            line1.append(2.0,result2.current);//因此进行强制类型转换。并且由float型强制转换为double型
+            line1.append(3.0,result3.current);//时不会丢失精度。
+            line2.append(1,result1.entrance);
+            line2.append(2,result2.entrance);
+            line2.append(3,result3.entrance);
+            line3.append(1,result1.exit);
+            line3.append(2,result2.exit);
+            line3.append(3,result3.exit);
+            line4.append(1,result1.flow);
+            line4.append(2,result2.flow);
+            line4.append(3,result3.flow);
 
             c.addSeries(&line1);
             c.addSeries(&line2);
@@ -284,19 +283,159 @@ void MainWindow::read()
             ui->chartwidget->setChart(&c);
 
             //显示数据
-            ui->result1_current->setNum(static_cast<double>(result1.current));
-            ui->result2_current->setNum(static_cast<double>(result2.current));
-            ui->result3_current->setNum(static_cast<double>(result3.current));
-            ui->result1_entrance->setNum(static_cast<double>(result1.entrance));
-            ui->result2_entrance->setNum(static_cast<double>(result2.entrance));
-            ui->result3_entrance->setNum(static_cast<double>(result3.entrance));
-            ui->result1_exit->setNum(static_cast<double>(result1.exit));
-            ui->result2_exit->setNum(static_cast<double>(result2.exit));
-            ui->result3_exit->setNum(static_cast<double>(result3.exit));
-            ui->result1_flow->setNum(static_cast<double>(result1.flow));
-            ui->result2_flow->setNum(static_cast<double>(result2.flow));
-            ui->result3_flow->setNum(static_cast<double>(result3.flow));
+            ui->result1_current->setNum(result1.current);
+            ui->result2_current->setNum(result2.current);
+            ui->result3_current->setNum(result3.current);
+            ui->result1_entrance->setNum(result1.entrance);
+            ui->result2_entrance->setNum(result2.entrance);
+            ui->result3_entrance->setNum(result3.entrance);
+            ui->result1_exit->setNum(result1.exit);
+            ui->result2_exit->setNum(result2.exit);
+            ui->result3_exit->setNum(result3.exit);
+            ui->result1_flow->setNum(result1.flow);
+            ui->result2_flow->setNum(result2.flow);
+            ui->result3_flow->setNum(result3.flow);
 
+            //判断1档是否合格
+            if(result1.current<=ui->current1_max->value() and result1.current>=ui->current1_min->value()) //电流
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("一档电流测试不合格\n");
+            }
+            if(result1.entrance<=ui->entrance1_max->value() and result1.entrance>=ui->entrance1_min->value()) //入口压力
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("一档入口压力不合格\n");
+            }
+            if(result1.exit<=ui->exit1_max->value() and result1.exit>=ui->exit1_min->value()) //出口压力
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("一档出口压力不合格\n");
+            }
+            if(result1.flow<=ui->flow1_max->value() and result1.flow>=ui->flow1_min->value()) //空气流量
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("一档空气流量不合格\n");
+            }
+            //判断2档是否合格
+            if(result2.current<=ui->current2_max->value() and result2.current>=ui->current2_min->value()) //电流
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("二档电流测试不合格\n");
+            }
+            if(result2.entrance<=ui->entrance2_max->value() and result2.entrance>=ui->entrance2_min->value()) //入口压力
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("二档入口压力不合格\n");
+            }
+            if(result2.exit<=ui->exit2_max->value() and result2.exit>=ui->exit2_min->value()) //出口压力
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("二档出口压力不合格\n");
+            }
+            if(result2.flow<=ui->flow2_max->value() and result2.flow>=ui->flow2_min->value()) //空气流量
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("二档空气流量不合格\n");
+            }
+            //判断3档是否合格
+            if(result3.current<=ui->current3_max->value() and result3.current>=ui->current3_min->value()) //电流
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("三档电流测试不合格\n");
+            }
+            if(result3.entrance<=ui->entrance3_max->value() and result3.entrance>=ui->entrance3_min->value()) //入口压力
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("三档入口压力不合格\n");
+            }
+            if(result3.exit<=ui->exit3_max->value() and result3.exit>=ui->exit3_min->value()) //出口压力
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("三档出口压力不合格\n");
+            }
+            if(result3.flow<=ui->flow3_max->value() and result3.flow>=ui->flow3_min->value()) //空气流量
+            {
+                //合格
+                //ui->result_edit->setText("合格");
+                errorflag = errorflag + 0;
+            }
+            else
+            {
+                //不合格
+                ui->result_edit->append("三档空气流量不合格\n");
+            }
+            //所有项目均合格
+            if(errorflag == 0)
+            {
+                ui->result_edit->setText("合格");
+            }
         }
         else
         {
@@ -307,6 +446,15 @@ void MainWindow::read()
     if(buf.contains('J'))//上传到数据库
     {
         ui->test_status->setText("正在上传数据...");
+
+        //QString qey = "INSERT INTO 总成气测 (ID,DATE,母线电流1,入口压力1,出口压力1,空气流量1,母线电流2,入口压力2,出口压力2,空气流量2,母线电流3,入口压力3,出口压力3,空气流量3) VALUES ";
+        //qey = qey + "(" + "\"FS20190821000\"," + "\"20190821\",";
+
+
+        //qey = qey + ");";
+        QSqlQuery query(db);
+        //query.exec(qey);
+        ui->test_status->setText("数据上传完成!");
     }
 
     //m_serialPort->setDataTerminalReady(true);
@@ -326,7 +474,7 @@ void MainWindow::send()
 
 void MainWindow::connect_mysql()
 {
-    QSqlDatabase db=QSqlDatabase::addDatabase("QMYSQL");
+    db=QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("192.168.50.169");      //连接数据库主机名，这里需要注意（若填的为”127.0.0.1“，出现不能连接，则改为localhost)
     db.setPort(3306);                 //连接数据库端口号，与设置一致
     db.setDatabaseName("acme");      //连接数据库名，与设置一致
@@ -355,7 +503,7 @@ void MainWindow::connect_mysql()
     QSqlQuery query(db);
     query.exec("USE acme;");
     query.exec("SELECT * FROM acme.总成气测;");
-    while(query.next()){
-        qDebug()<<query.value("name").toString();
-    }
+    //while(query.next()){
+    //    qDebug()<<query.value("name").toString();
+    //}
 }
