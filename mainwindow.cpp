@@ -38,9 +38,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->progressBar->setRange(0,100);
     ui->progressBar->reset();
 
+    //日期
+    date = QDate::currentDate();
+    ui->dateEdit->setDate(date);
+
+    //产品编号
+    ui->testdate->setText(date.toString("yyyyMMdd"));
+    ui->testnum->setText("000");
+    //qDebug()<<date.toString("yyyyMMdd");
+
+    //波特率
+    ui->comboBox_2->insertItem(0,"9600");
+
     //连接信号和槽
     connect(ui->btn_open,SIGNAL(clicked()),this,SLOT(openPort()));
-    connect(ui->btn_send,SIGNAL(clicked()),this,SLOT(send()));
+    //connect(ui->btn_send,SIGNAL(clicked()),this,SLOT(send()));
     connect(m_serialPort, &QSerialPort::readyRead, this, &MainWindow::read);
     connect(ui->btn_refresh,SIGNAL(clicked()),this,SLOT(refresh()));
 
@@ -142,6 +154,9 @@ void MainWindow::read()
     qDebug()<<buf;
     if(buf[0]=='K')
     {
+        ID.clear();
+        ID = "FS" + date.toString("yyyyMMdd") + ui->testnum->toPlainText().toUtf8();
+        qDebug()<<ID;
         dataarray.clear();        //清空存放数据的数组
         ui->progressBar->reset(); //复位进度条
         errorflag = 0;    //清空异常标志
@@ -205,7 +220,7 @@ void MainWindow::read()
     {
         receivecoutner = 0;
         //dataarray.append(buf);
-        ui->edit_send->setText(dataarray);
+        //ui->edit_send->setText(dataarray);
         qDebug()<<dataarray;
 
         if(dataarray.length()==74)
@@ -229,9 +244,12 @@ void MainWindow::read()
                 result3.exitstr[i] = dataarray[i+61];
                 result3.flowstr[i] = dataarray[i+67];
             }
-            //将收到的字符串数组转化为float型
-            result1.current = result1.currentstr.toDouble();
+            //将收到的字符串数组转化为double型
+            //result1.current = (((result1.currentstr.toDouble() * 3.3 * 8) / 4096)- 2.5 ) / 0.0313; //单位 A
+            result1.current = result2.currentstr.toDouble();
+            //result1.entrance = (((result1.entrancestr.toDouble() * 3.3 *0.2) / 4096) / 5) - 0.1; // 单位 MPa
             result1.entrance = result1.entrancestr.toDouble();
+            //result1.exit = (((result1.exitstr.toDouble() * 3.3 *0.2) / 4096) / 5) - 0.1;  //单位 MPa
             result1.exit = result1.exitstr.toDouble();
             result1.flow = result1.flowstr.toDouble();
             result2.current = result2.currentstr.toDouble();
@@ -307,6 +325,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("一档电流测试不合格\n");
+                errorflag = errorflag + 1;
             }
             if(result1.entrance<=ui->entrance1_max->value() and result1.entrance>=ui->entrance1_min->value()) //入口压力
             {
@@ -318,6 +337,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("一档入口压力不合格\n");
+                errorflag = errorflag + 1;
             }
             if(result1.exit<=ui->exit1_max->value() and result1.exit>=ui->exit1_min->value()) //出口压力
             {
@@ -329,6 +349,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("一档出口压力不合格\n");
+                errorflag = errorflag + 1;
             }
             if(result1.flow<=ui->flow1_max->value() and result1.flow>=ui->flow1_min->value()) //空气流量
             {
@@ -340,6 +361,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("一档空气流量不合格\n");
+                errorflag = errorflag + 1;
             }
             //判断2档是否合格
             if(result2.current<=ui->current2_max->value() and result2.current>=ui->current2_min->value()) //电流
@@ -352,6 +374,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("二档电流测试不合格\n");
+                errorflag = errorflag + 1;
             }
             if(result2.entrance<=ui->entrance2_max->value() and result2.entrance>=ui->entrance2_min->value()) //入口压力
             {
@@ -363,6 +386,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("二档入口压力不合格\n");
+                errorflag = errorflag + 1;
             }
             if(result2.exit<=ui->exit2_max->value() and result2.exit>=ui->exit2_min->value()) //出口压力
             {
@@ -374,6 +398,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("二档出口压力不合格\n");
+                errorflag = errorflag + 1;
             }
             if(result2.flow<=ui->flow2_max->value() and result2.flow>=ui->flow2_min->value()) //空气流量
             {
@@ -385,6 +410,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("二档空气流量不合格\n");
+                errorflag = errorflag + 1;
             }
             //判断3档是否合格
             if(result3.current<=ui->current3_max->value() and result3.current>=ui->current3_min->value()) //电流
@@ -397,6 +423,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("三档电流测试不合格\n");
+                errorflag = errorflag + 1;
             }
             if(result3.entrance<=ui->entrance3_max->value() and result3.entrance>=ui->entrance3_min->value()) //入口压力
             {
@@ -408,6 +435,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("三档入口压力不合格\n");
+                errorflag = errorflag + 1;
             }
             if(result3.exit<=ui->exit3_max->value() and result3.exit>=ui->exit3_min->value()) //出口压力
             {
@@ -419,6 +447,7 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("三档出口压力不合格\n");
+                errorflag = errorflag + 1;
             }
             if(result3.flow<=ui->flow3_max->value() and result3.flow>=ui->flow3_min->value()) //空气流量
             {
@@ -430,11 +459,17 @@ void MainWindow::read()
             {
                 //不合格
                 ui->result_edit->append("三档空气流量不合格\n");
+                errorflag = errorflag + 1;
             }
             //所有项目均合格
             if(errorflag == 0)
             {
-                ui->result_edit->setText("合格");
+                ui->result_edit->setHtml("<font color='green' size='10'><green>合格</font>");
+                quality = "qualified";
+            }
+            else
+            {
+                quality = "unqualified";
             }
         }
         else
@@ -447,14 +482,33 @@ void MainWindow::read()
     {
         ui->test_status->setText("正在上传数据...");
 
-        //QString qey = "INSERT INTO 总成气测 (ID,DATE,母线电流1,入口压力1,出口压力1,空气流量1,母线电流2,入口压力2,出口压力2,空气流量2,母线电流3,入口压力3,出口压力3,空气流量3) VALUES ";
-        //qey = qey + "(" + "\"FS20190821000\"," + "\"20190821\",";
-
-
-        //qey = qey + ");";
+        QString qey = "INSERT INTO 总成气测 (ID,DATE,CURRENT_1,PRESSURE_1_ENTRANCE,PRESSURE_1_EXIT,FLOW_1,CURRENT_2,PRESSURE_2_ENTRANCE,PRESSURE_2_EXIT,FLOW_2,CURRENT_3,PRESSURE_3_ENTRANCE,PRESSURE_3_EXIT,FLOW_3,QUALITY) VALUES ";
+        qey = qey +"(";
+        qey = qey + "\"" + ID + "\","; //编号
+        qey = qey + "\"" + date.toString("yyyyMMdd") +"\","; //日期
+        qey = qey + "\"" + QString::number(result1.current,10,2) + "\"" + ",";//CURRENT_1
+        qey = qey + "\"" + QString::number(result1.entrance,10,2) + "\"" + ",";//PRESSURE_1(ENTRANCE)
+        qey = qey + "\"" + QString::number(result1.exit,10,2) + "\"" + ",";//PRESSURE_1(EXIT)
+        qey = qey + "\"" + QString::number(result1.flow,10,2) + "\"" + ",";//FLOW_1
+        qey = qey + "\"" + QString::number(result2.current,10,2) + "\"" + ",";//CURRENT_2
+        qey = qey + "\"" + QString::number(result2.entrance,10,2) + "\"" + ",";//PRESSURE_2(ENTRANCE)
+        qey = qey + "\"" + QString::number(result2.exit,10,2) + "\"" + ",";//PRESSURE_2(EXIT)
+        qey = qey + "\"" + QString::number(result2.flow,10,2) + "\"" + ",";//FLOW_2
+        qey = qey + "\"" + QString::number(result3.current,10,2) + "\"" + ",";//CURRENT_3
+        qey = qey + "\"" + QString::number(result3.entrance,10,2) + "\"" + ",";//PRESSURE_3(ENTRANCE)
+        qey = qey + "\"" + QString::number(result3.exit,10,2) + "\"" + ",";//PRESSURE_3(EXIT)
+        qey = qey + "\"" + QString::number(result3.flow,10,2) + "\"" + ",";//FLOW_2
+        qey = qey + "\"" + quality+ "\"";//QUALITY
+        qey = qey + ");";
         QSqlQuery query(db);
-        //query.exec(qey);
-        ui->test_status->setText("数据上传完成!");
+        if(query.exec(qey))
+        {
+            ui->test_status->setText("数据上传完成!");
+        }
+        else
+        {
+            ui->test_status->setText("数据上传失败");
+        }
     }
 
     //m_serialPort->setDataTerminalReady(true);
@@ -463,8 +517,8 @@ void MainWindow::read()
 //串口发送数据函数
 void MainWindow::send()
 {
-    sendbuff = ui->edit_send->toPlainText().toUtf8();
-    m_serialPort->write(sendbuff);
+    //sendbuff = ui->edit_send->toPlainText().toUtf8();
+    //m_serialPort->write(sendbuff);
 
 }
 
@@ -502,7 +556,7 @@ void MainWindow::connect_mysql()
     }
     QSqlQuery query(db);
     query.exec("USE acme;");
-    query.exec("SELECT * FROM acme.总成气测;");
+    //query.exec("SELECT * FROM acme.总成气测;");
     //while(query.next()){
     //    qDebug()<<query.value("name").toString();
     //}

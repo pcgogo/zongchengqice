@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QTextCodec>
+#include <QDate>
 #include <QChartView>
 #include <QLineSeries>
 //#include <QPieSeries>
@@ -49,7 +50,7 @@ private:
     QStringList m_portNameList;//保存可用的串口名
     QSqlDatabase db;
     QByteArray sendbuff;//发送缓冲器
-    QByteArray dataarray;
+    QByteArray dataarray;//存放数据的HEX序列
     int receivecoutner;//接收计数
     QByteArray buf;//接收缓冲器
     QLineSeries line1; //创建图表折线对象1 显示电流数据
@@ -57,8 +58,10 @@ private:
     QLineSeries line3; //创建图表折线对象3 显示出口气压数据
     QLineSeries line4; //创建图表折线对象4 显示流量数据
     QChart c;   //创建图表对象
-    int errorflag;
-
+    int errorflag;//测试项目异常标志
+    QDate date;//当前日期
+    QString ID;//产品编号
+    QString quality;//水泵合格标记
     struct RESULT //测试结果结构体
     {
         QByteArray currentstr;   //用于保存接收的字符串
